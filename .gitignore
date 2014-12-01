@@ -17,3 +17,14 @@ project/plugins/project/
 
 # TRank specific
 trank-indexes/
+
+# Intellij
+*.iml
+.idea/
+*.ipr
+*.iws
+out/
+.idea_modules/
+
+# OSX
+.DS_Store
