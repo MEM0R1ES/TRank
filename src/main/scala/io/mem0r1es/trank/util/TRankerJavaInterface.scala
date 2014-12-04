@@ -4,28 +4,62 @@ import io.mem0r1es.trank.TRanker
 import java.net.URI
 import scala.collection.JavaConverters._
 
+/**
+ * Java interface for TRanker class
+ *
+ * Defines getter aliases in Java's style
+ * Convert Scala's collection to Java's
+ *
+ * @param trank TRanker class
+ */
 class TRankerJavaInterface(private val trank: TRanker) {
 
-	def getContentPreProcessed: java.lang.String =
+	/**
+	 * Get raw content access
+	 */
+	val getContentRaw = trank.contentRaw
+
+	/**
+	 * Get content without formatting tags
+	 */
+	val getContentPreProcessed: java.lang.String =
 		trank.contentPreProcessed
 
-	def getEntityToLabel: java.util.Map[URI, java.lang.String] =
+	/**
+	 * Get entities and their names
+	 * @return URI mapped to name
+	 */
+	val getEntityToLabel: java.util.Map[URI, java.lang.String] =
 		trank.entityToLabel.asJava
 
-	def getEntityURIs: java.util.Set[URI] =
+	/**
+	 * Get all entities
+	 * @return Set of all entities
+	 */
+	val getEntityURIs: java.util.Set[URI] =
 		trank.entityURIs.asJava
 
-	def getEntityToTypes: java.util.Map[URI, java.util.Set[URI]] =
+	/**
+	 * Get entities and their possible types
+	 * @return Entity URI mapped to set of types URI
+	 */
+	val getEntityToTypes: java.util.Map[URI, java.util.Set[URI]] =
 		trank.entityToTypes.map(
 			p => p._1 -> p._2.asJava
 		).asJava
 
-	def getEntityToTRankedTypes: java.util.Map[URI, java.util.Map[URI, java.lang.Double]] =
-		trank.entityToTRankedTypes.map(
-			p => p._1 -> p._2.toMap.map(
-				q => q._1 -> convertDouble(q._2)
-			).asJava
-		).asJava
-
-	private def convertDouble(x: Double): java.lang.Double = x
+	/**
+	 * Get entities and their ranked types
+	 * @return Entity URI mapped to type URI mapped to ranking scores
+	 */
+	val getEntityToTRankedTypes: java.util.Map[URI, java.util.LinkedHashMap[URI, java.lang.Double]] =
+		trank.entityToTRankedTypes.map {
+			case (entity, types) => entity -> {
+				val converted = new java.util.LinkedHashMap[URI, java.lang.Double]()
+				for {
+					(uri, score) <- types
+				} converted.put(uri, score)
+				converted
+			}
+		}.asJava
 }

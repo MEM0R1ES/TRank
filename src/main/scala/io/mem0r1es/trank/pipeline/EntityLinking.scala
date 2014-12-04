@@ -1,7 +1,6 @@
 package io.mem0r1es.trank.pipeline
 
 import java.net.URI
-
 import org.apache.lucene.index.Term
 import org.apache.lucene.search.BooleanClause
 import org.apache.lucene.search.BooleanClause.Occur
@@ -9,9 +8,7 @@ import org.apache.lucene.search.BooleanQuery
 import org.apache.lucene.search.IndexSearcher
 import org.apache.lucene.search.Query
 import org.apache.lucene.search.TermQuery
-
 import com.typesafe.config.Config
-
 import io.mem0r1es.trank.util.IndexUtils
 import io.mem0r1es.trank.util.TRankIndexType
 
