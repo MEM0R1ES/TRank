@@ -4,6 +4,9 @@ import io.mem0r1es.trank.TRanker
 import io.mem0r1es.trank.ranking.ANC_DEPTH
 import scala.io.Source
 
+/**
+ * Scala simple example.
+ */
 object SimpleExample extends App {
 
 	// loading resource
@@ -19,8 +22,9 @@ object SimpleExample extends App {
 	// print recognised entities
 	println("\n***** Named entities *****")
 
-	for ((uri, entity) <- entityToLabel)
-	 	println(f"$entity%-25s : $uri")
+	for ((uri, entity) <- entityToLabel) {
+		println(f"$entity%-25s : $uri")
+	}
 
 	// print entities map with best types
 	println("\n***** Entities to best 3 types *****")
@@ -29,6 +33,8 @@ object SimpleExample extends App {
 	 	(entity, types)  <- entityToTRankedTypes if types.nonEmpty
 	 	entityLabel 	 = entityToLabel(entity)
 	 	bestTypes 		 = types.take(3).map(_._1.getPath.split('/').last).mkString(", ") // getting last id from URI
-	} println(f"$entityLabel%-25s -> $bestTypes")
+	} {
+		println(f"$entityLabel%-25s -> $bestTypes")
+	}
 
 }

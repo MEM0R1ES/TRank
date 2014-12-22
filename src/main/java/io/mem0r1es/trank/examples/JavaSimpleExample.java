@@ -11,6 +11,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Java simple example using TRanker Java interface.
+ */
 public class JavaSimpleExample {
 
 	public static void main(String[] args) {
@@ -37,7 +40,8 @@ public class JavaSimpleExample {
 	}
 
 	/**
-	 * Print recognised entities
+	 * Print recognised entities.
+	 *
 	 * @param pipeline Java-converted TRank pipeline
 	 */
 	public static void printNamedEntities(TRankerJavaInterface pipeline) {
@@ -45,12 +49,14 @@ public class JavaSimpleExample {
 		System.out.println("\n***** Named entities *****");
 		Map<URI, String> entityToLabel = pipeline.getEntityToLabel();
 
-		for (Map.Entry<URI, String> element : entityToLabel.entrySet())
+		for (Map.Entry<URI, String> element : entityToLabel.entrySet()) {
 			System.out.format("%-25s -> %s\n", element.getValue(), element.getKey());
+		}
 	}
 
 	/**
-	 * Print entities map with best types
+	 * Print entities map with best types.
+	 *
 	 * @param pipeline Java-converted TRank pipeline
 	 */
 	public static void printEntitiesToBestTypes(TRankerJavaInterface pipeline) {
@@ -66,7 +72,7 @@ public class JavaSimpleExample {
 			String entity = entityToLabel.get(element.getKey());
 			LinkedHashMap<URI, Double> types = element.getValue();
 
-			if (types.size() > 0) { // print only entity with result
+			if (!types.isEmpty()) { // print only entity with result
 
 				StringBuilder bestTypes = new StringBuilder();
 				Iterator<Map.Entry<URI, Double>> typesRanked = types.entrySet().iterator();
@@ -79,8 +85,9 @@ public class JavaSimpleExample {
 
 					bestTypes.append(component[component.length - 1]);
 
-					if (typesRanked.hasNext() && 1 < count)
+					if (typesRanked.hasNext() && 1 < count) {
 						bestTypes.append(", ");
+					}
 				}
 
 				System.out.format("%-25s -> %s\n", entity, bestTypes);

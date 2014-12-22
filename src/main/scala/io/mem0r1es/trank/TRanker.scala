@@ -10,15 +10,34 @@ import io.mem0r1es.trank.pipeline.TypeRetrieval.retrieveTypes
 import io.mem0r1es.trank.ranking.ANCESTORS
 import io.mem0r1es.trank.ranking.RankingAlgo
 import java.io.InputStream
-import scala.io.Source
 import java.io.ByteArrayInputStream
 
+/**
+ * TRanker class
+ *
+ * From a textual input rank its content according to the specified algorithm and the entities context.
+ * Provide a Scala pipeline for:
+ * <ul>
+ *  <li>boilerplate removal on markup content</li>
+ *  <li>Named Entity Recognition</li>
+ *  <li>Entity linkage with DBpedia URIs</li>
+ *  <li>Entity typing using a novel type hierarchy that combines DBpedia, Yago, and schema.org classes</li>
+ *  <li>Type ranking based on algorithms that underwent thorough evaluation via crowdsourcing</li>
+ * </ul>
+ *
+ * @param content textual stream to be processe
+ * @param rankingAlgo specify ranking algorithm from package io.mem0r1es.trank.ranking
+ * @param config specify another Typesafe config (i.e. indexes path)
+ */
 class TRanker(content: InputStream, rankingAlgo: RankingAlgo, config: Config) {
 
   config.checkValid(ConfigFactory.defaultReference(), "TRank")
   
   /**
    * Default to standard config.
+   *
+   * @param content textual stream to be processed
+   * @param rankingAlgo specify ranking algorithm from package io.mem0r1es.trank.ranking
    */
   def this(content: InputStream, rankingAlgo: RankingAlgo) {
     this(content, rankingAlgo, ConfigFactory.load())
@@ -26,6 +45,8 @@ class TRanker(content: InputStream, rankingAlgo: RankingAlgo, config: Config) {
 
   /**
    * Default to ANCESTORS ranking algorithm, and standard config.
+   *
+   * @param content textual stream to be processed
    */
   def this(content: InputStream) {
     this(content, new ANCESTORS, ConfigFactory.load())
@@ -33,6 +54,9 @@ class TRanker(content: InputStream, rankingAlgo: RankingAlgo, config: Config) {
 
   /**
    * Default to standard config.
+   *
+   * @param contentStr text to be processed
+   * @param rankingAlgo specify ranking algorithm from package io.mem0r1es.trank.ranking
    */
   def this(contentStr: String, rankingAlgo: RankingAlgo) {
     this(new ByteArrayInputStream(contentStr.getBytes()),
@@ -42,6 +66,8 @@ class TRanker(content: InputStream, rankingAlgo: RankingAlgo, config: Config) {
 
   /**
    * Default to ANCESTORS ranking algorithm, and standard config.
+   *
+   * @param contentStr text to be processed
    */
   def this(contentStr: String) {
     this(new ByteArrayInputStream(contentStr.getBytes()),
