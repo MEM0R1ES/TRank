@@ -12,7 +12,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Java simple example using TRanker Java interface.
+ * A Java simple example using TRanker Java interface.
+ * More details on http://github.com/MEM0R1ES/TRank
  */
 public class JavaSimpleExample {
 
@@ -20,7 +21,7 @@ public class JavaSimpleExample {
 		try {
 
 			// loading resource
-			InputStream example = new FileInputStream("src/main/resources/MLK-Dream.txt");
+			InputStream example = new FileInputStream(JavaSimpleExample.class.getResource("/MLK-Dream.txt").getFile());
 
 			// run TRank pipeline with ranking algorithm ANC_DEPTH
 			TRanker scalaPipeline = new TRanker(example, new ANC_DEPTH());
@@ -42,11 +43,11 @@ public class JavaSimpleExample {
 	/**
 	 * Print recognised entities.
 	 *
-	 * @param pipeline Java-converted TRank pipeline
+	 * @param pipeline Java-interfaced TRank pipeline
 	 */
 	public static void printNamedEntities(TRankerJavaInterface pipeline) {
 
-		System.out.println("\n***** Named entities *****");
+		System.out.println("\n***** Named entities (Java) *****");
 		Map<URI, String> entityToLabel = pipeline.getEntityToLabel();
 
 		for (Map.Entry<URI, String> element : entityToLabel.entrySet()) {
@@ -55,13 +56,13 @@ public class JavaSimpleExample {
 	}
 
 	/**
-	 * Print entities map with best types.
+	 * Print entities mapped with best types.
 	 *
-	 * @param pipeline Java-converted TRank pipeline
+	 * @param pipeline Java-interfaced TRank pipeline
 	 */
 	public static void printEntitiesToBestTypes(TRankerJavaInterface pipeline) {
 
-		System.out.println("\n***** Entities to best 3 types *****");
+		System.out.println("\n***** Entities to best 3 types (Java) *****");
 
 		// aliases
 		Map<URI, LinkedHashMap<URI, Double>> entityToTRankedTypes = pipeline.getEntityToTRankedTypes();

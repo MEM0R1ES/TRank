@@ -11,19 +11,18 @@ class TRankerJavaInterfaceSpec extends FlatSpec {
 	val scalaTRanker = new TRanker(text)
 	val javaTRanker = new TRankerJavaInterface(scalaTRanker)
 
-	"An interface" should "keep the same order" in {
+	"Interface" should "keep the same order" in {
 
-		val scalaEntityToTRankedTypes = scalaTRanker.entityToTRankedTypes
-		val javaEntityToTRankedTypes = javaTRanker.getEntityToTRankedTypes
+		val scala = scalaTRanker.entityToTRankedTypes
+		val java = javaTRanker.getEntityToTRankedTypes
 
 		for {
-			(entity, types) <- scalaEntityToTRankedTypes
+			(entity, types) <- scala
 			ordered = types.toList
 			i <- ordered.indices
 		} {
-			assert(javaEntityToTRankedTypes.get(entity).get(ordered(i)._1) === ordered(i)._2)
+			assert(java.get(entity).get(ordered(i)._1) === ordered(i)._2)
 		}
-
 	}
 
 }

@@ -8,7 +8,7 @@ TRank implements a Scala pipeline for:
 * Type ranking based on algorithms that underwent thorough evaluation via crowdsourcing
  
 
-For example, a document containing the label *University of Fribourg* will return:
+For example, a document containing the label *University of Fribourg* will return (as types):
 ```scala
 http://dbpedia.org/resource/University_of_Fribourg ->
 
@@ -25,32 +25,45 @@ http://dbpedia.org/ontology/Agent)
 
 How To Use TRank
 ----------------
-### API
+
+### 1. Indexes
+TRank requires 3 Lucene indexes that are available for
+[download here](http://exascale.info/sites/default/files/uploaded/trank/trank-indexes.tgz).
+The .tgz extracted folder should be placed at project root (i.e. "TRank/*trank-indexes*"), and TRank will start to use
+ seamlessly the 3 indexes.
+
+**IMPORTANT:** do not change the directory structure of `trank-indexes/`.
+
+### 2. API
 To use TRank, it is enough to create a TRanker object with any textual content:
 ```scala
-class TRanker(content: String)
+val pipeline = new TRanker(content)
 ```
 possibly specifying an alternative ranking algorithm, instead of the default ANCESTORS:
 ```scala
-class TRanker(content: String, rankingAlgo: RankingAlgo)
-
-trait RankingAlgo { def rank(???): Seq[URI] }
+val pipeline = new TRanker(content, new ANC_DEPTH)
 ```
-
+User-defined algorithm can be used by implementing the `RankingAlgo` trait:
+```
+trait RankingAlgo { def rank(entityTypes: Map[URI, HierInfo]): Seq[(URI, Double)] }
+```
 The results of the whole pipeline process are accessible through:
 ```scala
 TRanker.entityToTRankedTypes: Map[URI, Seq[URI]]
 ```
 for the final step, and through similar data structures for all the intermediate steps.
 
-### Indexes
-TRank requires 3 Lucene indexes that are available for
-[download here](http://exascale.info/sites/default/files/uploaded/trank/trank-indexes.tgz).
-The .tgz can be extracted in the classpath of the library, and TRank will start to use seamlessly the 3 indexes.
+### 3. Java interface
+When using the pipeline with Java, results can be manipulated through the Java interface (using only Java's types):
+```scala
+TRanker scalaPipeline = new TRanker(content);
+TRankerJavaInterface pipeline = new TRankerJavaInterface(scalaPipeline);
+```
 
-**IMPORTANT:** do not change the directory structure of `trank-indexes/`.
+### 4. Examples
+Take a look at [Java example of use]() and [Scala example of use]().
 
-
+### 5. Configuration
 Alternatively, TRank uses the [Typesafe Configuration](https://github.com/typesafehub/config) library to manage user
 settings. To override the default path to the indexes, it is enough to define the `TRank.index_basepath` property.
 
