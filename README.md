@@ -44,7 +44,7 @@ possibly specifying an alternative ranking algorithm, instead of the default ANC
 val pipeline = new TRanker(content, new ANC_DEPTH)
 ```
 User-defined algorithm can be used by implementing the `RankingAlgo` trait:
-```
+```scala
 trait RankingAlgo { def rank(entityTypes: Map[URI, HierInfo]): Seq[(URI, Double)] }
 ```
 The results of the whole pipeline process are accessible through:
